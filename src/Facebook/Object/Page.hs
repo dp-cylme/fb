@@ -8,10 +8,10 @@ module Facebook.Object.Page
        , searchPages
        ) where
 
-import Control.Applicative
+import Control.Applicative()
 import Control.Monad (mzero)
 import Control.Monad.Trans.Control (MonadBaseControl)
-import Data.Aeson ((.:), (.:?))
+import Data.Aeson ((.:), (.:?), (.=))
 import qualified Control.Monad.Trans.Resource as R
 import qualified Data.Aeson as A
 import Data.Text (Text)
@@ -58,6 +58,23 @@ instance A.FromJSON Page where
          <*> v .:? "website"
          <*> v .:? "talking_about_count"
   parseJSON _ = mzero
+
+
+instance A.ToJSON Page where
+    toJSON p =
+        A.object
+            [ "id" .= pageId p
+            , "name" .= pageName p
+            , "link" .= pageLikes p
+            , "category" .= pageCategory p
+            , "is_published" .= pageIsPublished p
+            , "can_post" .= pageCanPost p
+            , "likes" .= pageLikes p
+            , "phone" .= pagePhone p
+            , "checkins" .= pageCheckins p
+            , "picture" .= pagePicture p
+            , "website" .= pageWebsite p
+            , "talking_about_count" .= pageTalkingAboutCount p]
 
 
 -- | Get a page using its ID. The user access token is optional.

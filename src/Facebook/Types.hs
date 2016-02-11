@@ -228,3 +228,7 @@ instance A.FromJSON FbUTCTime where
   parseJSON (A.Number n) =
     return $ FbUTCTime $ posixSecondsToUTCTime $ fromInteger $ floor n
   parseJSON _ = fail "could not parse FbUTCTime from something which is not a string or number"
+
+
+instance A.ToJSON FbUTCTime where
+    toJSON = A.toJSON . unFbUTCTime

@@ -62,6 +62,10 @@ library
     Facebook.Object.User
     Facebook.Object.Page
     Facebook.Object.Order
+    Facebook.Object.Comment
+    Facebook.Object.Like
+    Facebook.Object.Post
+    Facebook.Object.Counter
     Facebook.RealTime
     Facebook.FQL
     Facebook.TestUsers

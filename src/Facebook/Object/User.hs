@@ -9,7 +9,7 @@ module Facebook.Object.User
     , getUserFriends
     ) where
 
-import Control.Applicative
+import Control.Applicative()
 import Control.Monad (mzero)
 import Control.Monad.Trans.Control (MonadBaseControl)
 import Data.Aeson ((.:), (.:?))
@@ -63,6 +63,8 @@ instance A.FromJSON User where
            <*> v .:? "location"
     parseJSON _ = mzero
 
+instance A.ToJSON User where
+    toJSON u = A.object ["id" A..= userId u]
 
 -- | An user's gender.
 data Gender = Male | Female deriving (Eq, Ord, Show, Read, Enum, Typeable)
