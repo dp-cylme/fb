@@ -22,6 +22,8 @@ import Facebook.Graph
 import Facebook.Monad
 import Facebook.Types
 import Facebook.Pager
+import Facebook.Object.Post
+
 
 -- | A Facebook page (see
 -- <https://developers.facebook.com/docs/reference/api/page/>).
@@ -98,7 +100,7 @@ searchPages = searchObjects "page"
 
 -- | Get the list of posts of the given page
 getPagePosts
-    :: (MonadResource m, MonadBaseControl IO m)
+    :: (R.MonadResource m, MonadBaseControl IO m)
     => Id
     -> [Argument]
     -> AccessToken anyKind
