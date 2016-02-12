@@ -81,11 +81,12 @@ instance A.ToJSON Page where
 
 
 -- | Get a page using its ID. The user access token is optional.
-getPage :: (R.MonadResource m, MonadBaseControl IO m)
-        => Id                    -- ^ Page ID
-        -> [Argument]            -- ^ Arguments to be passed to Facebook
-        -> Maybe UserAccessToken -- ^ Optional user access token
-        -> FacebookT anyAuth m Page
+getPage
+    :: (R.MonadResource m, MonadBaseControl IO m)
+    => Id                    -- ^ Page ID
+    -> [Argument]            -- ^ Arguments to be passed to Facebook
+    -> Maybe (AccessToken anyKind) -- ^ Optional access token
+    -> FacebookT anyAuth m Page
 getPage id_ = getObject $ "/" <> idCode id_
 
 
@@ -103,7 +104,7 @@ getPagePosts
     :: (R.MonadResource m, MonadBaseControl IO m)
     => Id
     -> [Argument]
-    -> AccessToken anyKind
+    -> Maybe (AccessToken anyKind)
     -> FacebookT anyAuth m (Pager Post)
 getPagePosts id_ query tok =
-    getObject ("/" <> idCode id_ <> "/posts") query (Just tok)
+    getObject ("/" <> idCode id_ <> "/posts") query tok
