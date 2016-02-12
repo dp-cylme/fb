@@ -68,6 +68,15 @@ module Facebook
     , FriendList(..)
     , FriendListType(..)
     , getFriendListMembers
+      -- ** Comment
+    , Comment(..)
+    , getComments
+      -- ** Like
+    , getLikes
+      -- ** Post
+    , Post(..)
+    , getPost
+    , getSharedPosts
 
       -- * Facebook's Graph API basic functionality
       -- ** Simple types
@@ -144,6 +153,9 @@ import Facebook.Object.Action
 import Facebook.Object.Checkin
 import Facebook.Object.Order
 import Facebook.Object.FriendList
+import Facebook.Object.Comment
+import Facebook.Object.Like
+import Facebook.Object.Post
 import Facebook.RealTime
 import Facebook.FQL
 import Facebook.TestUsers
