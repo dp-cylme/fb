@@ -6,6 +6,7 @@ module Facebook.Object.Page
        ( Page(..)
        , getPage
        , searchPages
+       , getPagePosts
        ) where
 
 import Control.Applicative()
@@ -93,3 +94,14 @@ searchPages :: (R.MonadResource m, MonadBaseControl IO m)
             -> Maybe UserAccessToken -- ^ Optional user access token
             -> FacebookT anyAuth m (Pager Page)
 searchPages = searchObjects "page"
+
+
+-- | Get the list of posts of the given page
+getPagePosts
+    :: (MonadResource m, MonadBaseControl IO m)
+    => Id
+    -> [Argument]
+    -> AccessToken anyKind
+    -> FacebookT anyAuth m (Pager Post)
+getPagePosts id_ query tok =
+    getObject ("/" <> idCode id_ <> "/posts") query (Just tok)

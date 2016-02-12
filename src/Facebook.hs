@@ -50,6 +50,7 @@ module Facebook
     , Page(..)
     , getPage
     , searchPages
+    , getPagePosts
       -- ** Actions
     , Action
     , createAction
