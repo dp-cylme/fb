@@ -13,11 +13,12 @@ module Facebook.Base
 
 import Control.Applicative
 import Control.Monad (mzero)
-import Control.Monad.IO.Class (MonadIO)
+import Control.Monad.IO.Class (MonadIO, liftIO)
 import Data.ByteString.Char8 (ByteString)
 import Data.Default (def)
 import Data.Text (Text)
 import Data.Typeable (Typeable)
+import Control.Concurrent (threadDelay)
 
 import qualified Control.Exception.Lifted as E
 import Control.Monad.Trans.Class (MonadTrans)
@@ -157,7 +158,11 @@ fbhttpHelper manager req = do
 #if DEBUG
   _ <- liftIO $ printf "fbhttp doing request\n\tmethod: %s\n\tsecure: %s\n\thost: %s\n\tport: %s\n\tpath: %s\n\tqueryString: %s\n\trequestHeaders: %s\n" (show $ H.method req') (show $ H.secure req') (show $ H.host req') (show $ H.port req') (show $ H.path req') (show $ H.queryString req') (show $ H.requestHeaders req')
 #endif
-  response <- H.http req' manager
+  response <- E.catch (H.http req' manager)
+                      (\e -> case e of
+                          H.TlsExceptionHostPort _ _ _ ->
+                            liftIO (threadDelay 3) >> fbhttpHelper manager req
+                          _ -> E.throw e)
   let status  = H.responseStatus    response
       headers = H.responseHeaders   response
       cookies = H.responseCookieJar response
