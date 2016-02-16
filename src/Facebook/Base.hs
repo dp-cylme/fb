@@ -161,7 +161,7 @@ fbhttpHelper manager req = do
   response <- E.catch (H.http req' manager)
                       (\e -> case e of
                           H.TlsExceptionHostPort _ _ _ ->
-                            liftIO (threadDelay 3000000) >> fbhttpHelper manager req
+                            liftIO (threadDelay 8000000) >> fbhttpHelper manager req
                           _ -> E.throw e)
   let status  = H.responseStatus    response
       headers = H.responseHeaders   response
